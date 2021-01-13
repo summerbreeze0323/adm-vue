@@ -1,0 +1,37 @@
+@charset 'utf-8';
+
+.inner { padding: 1rem 2rem; }
+.text_purple { color: $primary-purple; }
+
+/* Auth styles */
+.auth {
+  height: 100vh;
+  min-height: 700px;
+
+  .auth_form_wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    width: 500px;
+    height: calc(100% - 120px);
+
+    .row {
+      padding: 3rem 3rem 3.5rem;
+      width: 100%;
+      background-color: $bg-purple;
+      border-radius: .35rem;
+    
+      .welcome {
+        margin-bottom: 2rem;
+        font-size: 1.7rem;
+        color: #d0d2d6;
+      }
+
+      .link_text {
+        padding-left: 5px;
+        color: $primary-purple;
+      }
+    }
+  }
+}

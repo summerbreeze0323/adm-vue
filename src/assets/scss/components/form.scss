@@ -1,0 +1,40 @@
+@charset 'utf-8';
+@import '@/assets/scss/_import/variables.scss';
+
+.form-group {
+  height: 100%;
+
+	&.required > label::after {
+		display: inline-block;
+		content: '*';
+		margin-left: 3px;
+		color: #ff0000;
+		font-weight: 400;
+  }
+  
+  > label {
+    margin-bottom: .2857rem;
+    font-size: .85rem;
+    color: $text-color;
+    line-height: 1.3;
+  }
+
+  .form-control {
+    color: #b4b7bd;
+    background-color: $bg-purple;
+    border-color: $border-color;
+
+    &:disabled { background-color: #f2f2f3; }
+    &:focus {
+      border-color: $primary-purple;
+      box-shadow: none;
+    }
+
+    &.error { border-color: $red !important; }
+  }
+
+  .error_txt {
+    font-size: .85rem;
+    color: $red;
+  }
+}

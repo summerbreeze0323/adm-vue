@@ -1,0 +1,32 @@
+@charset 'utf-8';
+@import '@/assets/scss/_import/variables.scss';
+
+$primary-width: 150px;
+
+.btn_wrap {
+  padding-top: 8px;
+}
+
+.btn--full { width: 100% !important; }
+
+.btn {
+  border-radius: .358rem;
+}
+
+.btn_primary {
+	width: $primary-width;
+	background-color: $primary-purple;
+	border-color: $primary-purple;
+
+  &:hover {
+    background-color: $primary-purple;
+		border-color: $primary-purple;
+    box-shadow: 0 8px 25px -8px $primary-purple;
+  }
+  
+	&:active,
+	&:focus {
+		background-color: $primary-purple;
+		border-color: $primary-purple;
+	}
+}
