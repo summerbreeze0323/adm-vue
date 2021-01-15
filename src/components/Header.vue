@@ -2,37 +2,41 @@
   <header>
     <div class="inner">
       <b-navbar toggleable="lg" type="dark">
-        <b-navbar-brand href="/">
-          <img src="@/assets/images/logo.png" alt="vue logo">
-          <span>Admin</span>
-        </b-navbar-brand>
+        <b-navbar-toggle target="nav-collapse" @click="toggleNav"></b-navbar-toggle>
 
-        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
-        <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav>
-            <b-nav-item href="#">Menu1</b-nav-item>
-            <b-nav-item href="#">Menu2</b-nav-item>
-          </b-navbar-nav>
-
-          <b-navbar-nav class="ml-auto">
-            <b-nav-item-dropdown right>
-              <template #button-content>
-                <em>{{ userName }}</em>
-              </template>
-              <b-dropdown-item href="#">프로필 수정</b-dropdown-item>
-              <b-dropdown-item @click="logout">로그아웃</b-dropdown-item>
-            </b-nav-item-dropdown>
-          </b-navbar-nav>
-        </b-collapse>
+        <b-navbar-nav class="ml-auto user_dropdown">
+          <span class="user_name">{{ userName }}</span>
+          <b-dropdown right>
+            <template #button-content>
+              <user-icon size="22"></user-icon>
+            </template>
+            <b-dropdown-item href="#">
+              <user-icon size="20"></user-icon>
+              <span class="icon_txt">프로필</span>
+            </b-dropdown-item>
+            <b-dropdown-item @click="logout">
+              <log-out-icon size="20"></log-out-icon>
+              <span class="icon_txt">로그아웃</span>
+            </b-dropdown-item>
+          </b-dropdown>
+        </b-navbar-nav>
       </b-navbar>
     </div>  
   </header>
 </template>
 
 <script>
+import { 
+  UserIcon,
+  LogOutIcon
+} from 'vue-feather-icons';
+
 export default {
   name: 'Header',
+  components: {
+    UserIcon,
+    LogOutIcon
+  },
   computed: {
     userName() {
       return this.$store.getters['Auth/getUserInfo'].name
@@ -45,30 +49,64 @@ export default {
 			}).catch(err => {
 				console.log(err)
 			})
-		}
+    },
+    toggleNav() {
+      this.$emit('toggleNav')
+    }
   }
 }
 </script>
 
 <style lang="scss">
 header {
-  img,
-  span {
-    display: inline-block;
-    vertical-align: middle;
-  }
-
-  img { width: 35px; }
-  span {
-    padding-left: 9px;
-    font-size: 22px;
-    font-weight: 600;
-    color: #00c086;
-  }
-
   .navbar {
     border-radius: 0.428rem;
     background-color: $bg-purple;
+
+    .navbar-toggler {
+      border: 0;
+
+      &:focus { outline: none; }
+    }
+
+    .user_dropdown {
+      display: inline-block;
+
+      .user_name {
+        padding-right: 5px;
+        font-weight: 500;  
+      }
+
+      .dropdown {
+        .dropdown-toggle {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+
+          &::after { display: none; }
+        }
+        .dropdown-menu {
+          position: absolute;
+          top: 53px;
+          background-color: $bg-purple;
+          box-shadow: 0 4px 24px 0 rgba(0,0,0,.24);
+
+          .dropdown-item {
+            padding: .65rem 1.28rem;
+            color: $gray;
+
+            &:hover {
+              color: $primary-purple;
+              background-color: rgba(115,103,240,.12);
+            }
+          }
+        }
+      }
+    }
   }
 }
 </style>

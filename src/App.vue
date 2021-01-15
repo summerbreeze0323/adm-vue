@@ -23,6 +23,6 @@ export default {
 
 #app {
 	min-height: 100vh;
-	background-color: #161b32;
+	background-color: $dark-purple;
 }
 </style>
