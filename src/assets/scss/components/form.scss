@@ -2,6 +2,7 @@
 @import '@/assets/scss/_import/variables.scss';
 
 .form-group {
+  margin-bottom: 0;
   height: 100%;
 
 	&.required > label::after {
@@ -13,13 +14,15 @@
   }
   
   > label {
-    margin-bottom: .2857rem;
-    font-size: .85rem;
+    margin-bottom: .385rem;
+    font-size: .928rem;
     color: $text-color;
     line-height: 1.3;
   }
 
   .form-control {
+    padding: .638rem 1rem .438rem;
+    height: auto;
     color: $gray;
     background-color: $bg-purple;
     border-color: $border-color;
@@ -37,4 +40,30 @@
     font-size: .85rem;
     color: $red;
   }
+}
+
+.search_wrap {
+  padding: 1.5rem;
+
+  .btn_search_wrap {
+    padding-top: 21px;
+
+    .btn { padding: .537rem 1.5rem; }
+  }
+}
+
+@media (max-width: 991px) {
+  .search_wrap {
+    margin-bottom: 1.2rem;
+
+    .btn_search_wrap {
+      padding-top: 5px;
+
+      .btn {
+        width: 100%;  
+      }
+    }
+  }
+
+  .form-group { margin-bottom: 1rem; }
 }

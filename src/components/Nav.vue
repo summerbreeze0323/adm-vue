@@ -29,10 +29,14 @@
         </b-collapse>
       </li>
       <li>
-        <b-nav-item href="#">
+        <router-link to="/users">
           <user-icon size="20"></user-icon>
           <span class="icon_txt">회원 관리</span>
-        </b-nav-item>
+        </router-link>
+        <!-- <b-nav-item href="/users">
+          <user-icon size="20"></user-icon>
+          <span class="icon_txt">회원 관리</span>
+        </b-nav-item> -->
       </li>
       <li>
         <b-nav-item href="#">
@@ -137,9 +141,9 @@ export default {
       }
 
       .nav_collapse {
-        margin-top: 5px;
+        margin: 5px 0;
         border-radius: 6px;
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
 
        .nav-link { padding-left: 20px; }
       } 
@@ -156,10 +160,10 @@ export default {
         &:hover { padding-left: 20px; }
         &:focus { padding-left: 15px; }
         
-        &.router-link-active {
+        &.router-link-exact-active {
           color: #fff;
-          background-color: $primary-purple;
-          box-shadow: 0 0 10px 1px rgba(155,103,240,.7);
+          background: linear-gradient(118deg,$primary-purple,rgba(115,103,240,.7));
+          box-shadow: 0 0 10px 1px rgba(115,103,240,.7);
         }
         span {
           margin-right: auto;

@@ -1,27 +1,25 @@
 <template>
   <header>
-    <div class="inner">
-      <b-navbar toggleable="lg" type="dark">
-        <b-navbar-toggle target="nav-collapse" @click="toggleNav"></b-navbar-toggle>
+    <b-navbar toggleable="lg" type="dark">
+      <b-navbar-toggle target="nav-collapse" @click="toggleNav"></b-navbar-toggle>
 
-        <b-navbar-nav class="ml-auto user_dropdown">
-          <span class="user_name">{{ userName }}</span>
-          <b-dropdown right>
-            <template #button-content>
-              <user-icon size="22"></user-icon>
-            </template>
-            <b-dropdown-item href="#">
-              <user-icon size="20"></user-icon>
-              <span class="icon_txt">프로필</span>
-            </b-dropdown-item>
-            <b-dropdown-item @click="logout">
-              <log-out-icon size="20"></log-out-icon>
-              <span class="icon_txt">로그아웃</span>
-            </b-dropdown-item>
-          </b-dropdown>
-        </b-navbar-nav>
-      </b-navbar>
-    </div>  
+      <b-navbar-nav class="ml-auto user_dropdown">
+        <span class="user_name">{{ userName }}</span>
+        <b-dropdown right>
+          <template #button-content>
+            <user-icon size="22"></user-icon>
+          </template>
+          <b-dropdown-item href="#">
+            <user-icon size="20"></user-icon>
+            <span class="icon_txt">프로필</span>
+          </b-dropdown-item>
+          <b-dropdown-item @click="logout">
+            <log-out-icon size="20"></log-out-icon>
+            <span class="icon_txt">로그아웃</span>
+          </b-dropdown-item>
+        </b-dropdown>
+      </b-navbar-nav>
+    </b-navbar>
   </header>
 </template>
 
@@ -59,6 +57,8 @@ export default {
 
 <style lang="scss">
 header {
+  padding-bottom: 2rem;
+
   .navbar {
     border-radius: 0.428rem;
     background-color: $bg-purple;
@@ -107,6 +107,10 @@ header {
         }
       }
     }
+  }
+
+  @media (max-width: 991px) {
+    padding-bottom: 1.2rem;
   }
 }
 </style>
