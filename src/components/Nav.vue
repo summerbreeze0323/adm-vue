@@ -28,15 +28,11 @@
           </b-nav-item>
         </b-collapse>
       </li>
-      <li>
+      <li @click="toggleNav">
         <router-link to="/users">
           <user-icon size="20"></user-icon>
           <span class="icon_txt">회원 관리</span>
         </router-link>
-        <!-- <b-nav-item href="/users">
-          <user-icon size="20"></user-icon>
-          <span class="icon_txt">회원 관리</span>
-        </b-nav-item> -->
       </li>
       <li>
         <b-nav-item href="#">

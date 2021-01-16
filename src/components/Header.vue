@@ -2,6 +2,7 @@
   <header>
     <b-navbar toggleable="lg" type="dark">
       <b-navbar-toggle target="nav-collapse" @click="toggleNav"></b-navbar-toggle>
+      <h2 class="page_title">{{ pageTitle }}</h2>
 
       <b-navbar-nav class="ml-auto user_dropdown">
         <span class="user_name">{{ userName }}</span>
@@ -35,6 +36,16 @@ export default {
     UserIcon,
     LogOutIcon
   },
+  created() {
+    this.$eventBus.$on('pageTitle', (title) => {
+      this.pageTitle = title
+    })
+  },
+  data() {
+    return {
+      pageTitle: ''
+    }
+  },
   computed: {
     userName() {
       return this.$store.getters['Auth/getUserInfo'].name
@@ -60,6 +71,7 @@ header {
   padding-bottom: 2rem;
 
   .navbar {
+    padding: .5rem 1rem .5rem 1.5rem;
     border-radius: 0.428rem;
     background-color: $bg-purple;
 
@@ -67,6 +79,11 @@ header {
       border: 0;
 
       &:focus { outline: none; }
+    }
+
+    .page_title {
+      font-weight: 600;
+      color: #fff;
     }
 
     .user_dropdown {
@@ -111,6 +128,12 @@ header {
 
   @media (max-width: 991px) {
     padding-bottom: 1.2rem;
+
+    .navbar {
+      padding: .5rem .7rem;
+
+      .page_title { padding-left: 5px; }
+    }
   }
 }
 </style>
