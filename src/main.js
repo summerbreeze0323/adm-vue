@@ -20,6 +20,8 @@ Vue.component('ValidationObserver', ValidationObserver)
 
 router.beforeEach(checkAuth)
 
+Vue.prototype.$eventBus = new Vue()
+
 // Vue.config.productionTip = false;
 
 new Vue({

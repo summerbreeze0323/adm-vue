@@ -94,6 +94,9 @@ export default {
     ChevronRightIcon,
     ChevronsRightIcon
   },
+  created() {
+    this.$eventBus.$emit('pageTitle', '회원 관리')
+  },
   data() {
     return {
       searchForm: {
