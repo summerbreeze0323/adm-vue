@@ -12,7 +12,7 @@ import VueCookies from 'vue-cookies'
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
-Vue.use(VeeValidate, { mode: 'eager' })
+Vue.use(VeeValidate, { fieldsBagName: 'veeFields' }, { mode: 'eager' })
 Vue.use(VueCookies)
 
 Vue.component('ValidationProvider', ValidationProvider)
