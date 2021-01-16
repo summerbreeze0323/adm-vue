@@ -40,7 +40,7 @@
         <b-table
           id="userList"
           :fields="fields"
-          :items="lists"
+          :items="lists.item"
           :per-page="searchForm.perPage"
           :current-page="searchForm.page"
         >
@@ -53,47 +53,19 @@
         </b-table>
       </div>
 
-      <div class="pagination_wrap">
-        <p class="total">Total: {{ lists.length }}</p>
-        <div class="pagination">
-          <b-pagination
-            v-model="searchForm.page"
-            aria-controls="userList"
-            :total-rows="lists.length"
-            :per-page="searchForm.perPage"
-            :limit="10"
-            :first-class="'btn_page_arrow btn_first_page'"
-            :prev-class="'btn_page_arrow btn_prev_page'"
-            :next-class="'btn_page_arrow btn_next_page'"
-            :last-class="'btn_page_arrow btn_last_page'"
-          >
-            <template #first-text><chevrons-left-icon size="18" class="ico_first_page"></chevrons-left-icon></template>
-            <template #prev-text><chevron-left-icon size="18" class="ico_prev_page"></chevron-left-icon></template>
-            <template #next-text><chevron-right-icon size="18" class="ico_next_page"></chevron-right-icon></template>
-            <template #last-text><chevrons-right-icon size="18" class="ico_last_page"></chevrons-right-icon></template>
-          </b-pagination>
-        </div>
-      </div>
+      <pagination
+        :arialControls="'userList'"
+        :total="lists.total ? lists.total : 0"
+				:perPage="searchForm.perPage"
+				:page="searchForm.page"
+      ></pagination>
     </div>
   </div>
 </template>
 
 <script>
-import {
-  ChevronsLeftIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronsRightIcon
-} from 'vue-feather-icons'
-
 export default {
   name: 'UserList',
-  components: {
-    ChevronsLeftIcon,
-    ChevronLeftIcon,
-    ChevronRightIcon,
-    ChevronsRightIcon
-  },
   created() {
     this.$eventBus.$emit('pageTitle', '회원 관리')
   },
@@ -112,40 +84,43 @@ export default {
         { key: 'email', label: '이메일' },
         { key: 'signup_date', label: '가입일' }
       ],
-      lists: [
-        { name: 'John', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Jane', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Rubin', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Shirley', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'John', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Jane', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Rubin', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Shirley', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'John', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Jane', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Rubin', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Shirley', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'John', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Jane', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Rubin', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Shirley', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'John', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Jane', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Rubin', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Shirley', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'John', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Jane', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Rubin', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Shirley', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'John', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Jane', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Rubin', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Shirley', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'John', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Jane', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Rubin', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
-        { name: 'Shirley', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'}
-      ]
+      lists: {
+        total: 32,
+        item: [
+          { name: 'John', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Jane', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Rubin', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Shirley', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'John', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Jane', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Rubin', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Shirley', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'John', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Jane', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Rubin', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Shirley', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'John', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Jane', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Rubin', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Shirley', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'John', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Jane', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Rubin', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Shirley', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'John', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Jane', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Rubin', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Shirley', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'John', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Jane', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Rubin', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Shirley', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'John', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Jane', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Rubin', birth: '1985-02-01', gender: 'F', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'},
+          { name: 'Shirley', birth: '1985-02-01', gender: 'M', email: 'summerbreeze0323@gmail.com', signup_date: '2021-01-12'}
+        ]
+      }
     }
   },
 }
