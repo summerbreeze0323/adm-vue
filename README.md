@@ -1,5 +1,4 @@
 # adm-vue
-<<<<<<< HEAD
 
 ## Project setup
 ```
@@ -25,9 +24,3 @@ yarn run test
 ```
 yarn run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-=======
-카페 관리자
->>>>>>> df499da12c39f880f97feee39f1cb46205e26bb3
