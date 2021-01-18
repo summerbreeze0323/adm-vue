@@ -11,6 +11,7 @@
             >
               <b-form-select
                 id="sido"
+                class="form-control"
                 v-model="searchForm.sido"
               >
                 <b-form-select-option value="">시/도 선택</b-form-select-option>
@@ -28,6 +29,7 @@
             >
               <b-form-select
                 id="guguno"
+                class="form-control"
                 v-model="searchForm.gugun"
                 :disabled="!searchForm.sido"
               >
@@ -40,7 +42,7 @@
           </div>
           <div class="col-12 col-md-4">
             <b-form-group
-              id="username"
+              id="store"
               label="지점명"
               label-for="store"
             >
@@ -58,6 +60,9 @@
     </div>
 
     <div class="card">
+      <div class="btn_wrap">
+        <router-link :to="{name: 'StoreCreate'}" class="btn">매장 등록</router-link>
+      </div>
       <div class="table_wrap">
         <b-table
           id="storeList"
@@ -85,7 +90,6 @@ import { sidoList } from '../js/sidoList'
 export default {
   name: 'StoreList',
   created() {
-    console.log(sidoList)
     this.sidoOptions = sidoList
     this.$eventBus.$emit('pageTitle', '매장 관리')
   },

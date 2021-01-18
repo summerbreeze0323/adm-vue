@@ -156,7 +156,7 @@ export default {
         &:hover { padding-left: 20px; }
         &:focus { padding-left: 15px; }
         
-        &.router-link-exact-active {
+        &.active {
           color: #fff;
           background: linear-gradient(118deg,$primary-purple,rgba(115,103,240,.7));
           box-shadow: 0 0 10px 1px rgba(115,103,240,.7);

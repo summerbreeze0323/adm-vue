@@ -3,8 +3,9 @@
 .inner { padding: 1rem 0; }
 .card {
   margin-bottom: 2rem;
+  padding: 1.5rem;
   background-color: $bg-purple;
-  border-radius: .428rem;;
+  border-radius: .428rem;
   box-shadow: 0 4px 24px 0 rgba(34,41,47,.24);
   overflow: hidden;
 }
@@ -44,3 +45,6 @@
     }
   }
 }
+
+/* Bootstrap-vue style */
+.toast-header strong { color: inherit; }
