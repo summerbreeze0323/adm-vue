@@ -54,6 +54,7 @@ export default {
 		}
 		.app_content {
 			margin-left: 260px;
+			padding: 2rem;
 		}
 	}
 
@@ -73,6 +74,7 @@ export default {
 	@media (max-width: 991px) {
     &.menu_expanded .app_content {
 			margin-left: 0;
+			padding: 1.2rem;
 		}
 		.overlay.show {
 			display: block;

@@ -43,7 +43,10 @@ a {
 	}
 }
 
-strong { font-weight: 700; }
+strong {
+	font-weight: 700;
+	color: $primary-purple;
+}
 
 fieldset {
   margin: 0;

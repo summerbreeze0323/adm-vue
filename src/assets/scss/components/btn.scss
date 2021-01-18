@@ -1,8 +1,6 @@
 @charset 'utf-8';
 @import '@/assets/scss/_import/variables.scss';
 
-$primary-width: 150px;
-
 .btn_wrap {
   padding-top: 8px;
 }
@@ -10,13 +8,10 @@ $primary-width: 150px;
 .btn--full { width: 100% !important; }
 
 .btn {
-  border-radius: .358rem;
-}
-
-.btn_primary {
-	width: $primary-width;
+	padding: .786rem 1.5rem;
 	background-color: $primary-purple;
 	border-color: $primary-purple;
+	border-radius: .358rem;
 
   &:hover {
     background-color: $primary-purple;
