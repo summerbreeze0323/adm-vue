@@ -7,6 +7,7 @@ import NotFound from '@/components/NotFound'
 import AuthRoutes from "@/pages/auth";
 import MainRoutes from '@/pages/main'
 import UserRoutes from '@/pages/user'
+import StoreRoutes from '@/pages/store'
 
 Vue.use(VueRouter);
 
@@ -16,7 +17,8 @@ const routes = [
     component: AdmLayout,
     children: [
       ...MainRoutes,
-      ...UserRoutes
+      ...UserRoutes,
+      ...StoreRoutes
     ]
   },
   ...AuthRoutes,

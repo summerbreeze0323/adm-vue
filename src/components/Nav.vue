@@ -35,16 +35,16 @@
         </router-link>
       </li>
       <li>
-        <b-nav-item href="#">
+        <b-nav-item href="/stores">
           <coffee-icon size="20"></coffee-icon>
           <span class="icon_txt">상품 관리</span>
         </b-nav-item>
       </li>
       <li>
-        <b-nav-item href="#">
+        <router-link to="/stores">
           <layout-icon size="20"></layout-icon>
           <span class="icon_txt">매장 관리</span>
-        </b-nav-item>
+        </router-link>
       </li>
     </b-navbar-nav>
   </div>

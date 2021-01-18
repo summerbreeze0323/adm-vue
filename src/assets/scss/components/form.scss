@@ -1,6 +1,23 @@
 @charset 'utf-8';
 @import '@/assets/scss/_import/variables.scss';
 
+select.custom-select {
+  padding: .638rem 1rem .438rem;
+  height: auto;
+  color: $gray;
+  background-color: $bg-purple;
+  border-color: $border-color;
+
+  &:focus {
+    border-color: $primary-purple;
+    box-shadow: none;
+  }
+  &:disabled {
+    color: #8e9095;
+    background-color: #283046;
+  }
+}
+
 .form-group {
   margin-bottom: 0;
   height: 100%;
@@ -29,7 +46,7 @@
 
     &:disabled { background-color: #f2f2f3; }
     &:focus {
-      border-color: $primary-purple;
+      border-color: $primary-purple !important;
       box-shadow: none;
     }
 
