@@ -1,5 +1,5 @@
 <template>
-  <div class="store_new">
+  <div class="store_update">
     <div class="card">
       <ValidationObserver ref="store">
         <b-form @submit.prevent>
@@ -122,7 +122,8 @@
             </div>
           </b-row>
           <div class="btn_wrap">
-            <b-button type="button" @click="validAll">매장 등록</b-button>
+            <b-button type="button" @click="validAll">매장 수정</b-button>
+            <b-button type="button" class="btn_red ml_5">매장 삭제</b-button>
           </div>
         </b-form>
       </ValidationObserver>  
@@ -134,10 +135,10 @@
 import { sidoList } from '../js/sidoList'
 
 export default {
-  name: 'StoreCreate',
+  name: 'StoreUpdate',
   created() {
     this.sidoOptions = sidoList
-    this.$eventBus.$emit('pageTitle', '매장 등록')
+    this.$eventBus.$emit('pageTitle', '매장 상세')
   },
   data() {
     return {

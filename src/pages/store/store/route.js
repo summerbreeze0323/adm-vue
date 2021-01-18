@@ -2,6 +2,7 @@ import StoreLayout from './views/StoreLayout'
 
 import StoreList from './views/StoreList'
 import StoreCreate from './views/StoreCreate'
+import StoreUpdate from './views/StoreUpdate'
 
 const StoreRoute = {
   path: 'stores',
@@ -17,6 +18,11 @@ const StoreRoute = {
       path: 'new',
       name: 'StoreCreate',
       component: StoreCreate
+    },
+    {
+      path: ':id',
+      name: 'StoreUpdate',
+      component: StoreUpdate
     }
   ]
 }

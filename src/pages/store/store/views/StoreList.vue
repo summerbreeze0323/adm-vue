@@ -65,12 +65,13 @@
       </div>
       <div class="table_wrap">
         <b-table
+          hover
           id="storeList"
-         
           :fields="fields"
           :items="lists.item"
           :per-page="searchForm.perPage"
           :current-page="searchForm.page"
+          @row-clicked="goDetail"
         ></b-table>
       </div>
 
@@ -121,6 +122,11 @@ export default {
     'searchForm.sido'() {
       if (this.searchForm.gugun) { this.searchForm.gugun = ''}
     }
+  },
+  methods: {
+    goDetail (item) {
+			this.$router.push({ name: 'StoreUpdate', params: { id: 123 } })
+		}
   }
 }
 </script>

@@ -28,4 +28,23 @@
 		background-color: $primary-purple;
 		border-color: $primary-purple;
 	}
+
+	&.no_shadow { box-shadow: none; }
+
+	&.btn_red {
+		background-color: $red;
+		border-color: $red;
+
+		&:hover {
+			background-color: $red !important;
+			border-color: $red;
+			box-shadow: 0 8px 25px -8px $red;
+		}
+		
+		&:active,
+		&:focus {
+			background-color: $red;
+			border-color: $red;
+		}
+	}
 }
