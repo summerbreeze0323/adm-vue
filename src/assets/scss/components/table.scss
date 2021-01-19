@@ -8,6 +8,9 @@
     min-width: 676px;
     border-bottom: 1px solid #3b4253;
 
+    &.table_middle tbody th,
+    &.table_middle tbody td { vertical-align: middle; }
+
     thead tr th {
       padding: .72rem;
       color: $text-color;

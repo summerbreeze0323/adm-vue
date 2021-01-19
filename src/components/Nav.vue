@@ -34,13 +34,13 @@
           <span class="icon_txt">회원 관리</span>
         </router-link>
       </li>
-      <li>
-        <b-nav-item href="/stores">
+      <li @click="toggleNav">
+        <router-link to="/products">
           <coffee-icon size="20"></coffee-icon>
           <span class="icon_txt">상품 관리</span>
-        </b-nav-item>
+        </router-link>
       </li>
-      <li>
+      <li @click="toggleNav">
         <router-link to="/stores">
           <layout-icon size="20"></layout-icon>
           <span class="icon_txt">매장 관리</span>
