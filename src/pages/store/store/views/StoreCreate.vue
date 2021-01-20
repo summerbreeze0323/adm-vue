@@ -23,22 +23,20 @@
               </ValidationProvider>
             </div>
             <div class="col-12 col-md-6 col-xl-3">
-              <ValidationProvider rules="required" v-slot="{ errors }">
-                <b-form-group
+              <b-form-group
+                id="tel"
+                label="전화번호"
+                label-for="tel"
+              >
+                <b-form-input
+                  name="tel"
                   id="tel"
-                  label="전화번호"
-                  label-for="tel"
-                >
-                  <b-form-input
-                    name="tel"
-                    id="tel"
-                    :class="{'error': errors[0]}"
-                    v-model="storeForm.tel"
-                    v-validate="'required'"
-                  ></b-form-input>
-                  <span class="error_txt">{{ errors[0] }}</span>
-                </b-form-group>
-              </ValidationProvider>
+                  :class="{'error': storeForm.tel.length && !telError}"
+                  :value="storeForm.tel"
+                  @input="validTel($event)"
+                ></b-form-input>
+                <span class="error_txt" v-show="storeForm.tel.length && !telError">전화번호 형식이 아닙니다.</span>
+              </b-form-group>
             </div>
             <div class="col-6 col-md-6 col-xl-3">
               <ValidationProvider rules="required" v-slot="{ errors }">
@@ -152,7 +150,8 @@ export default {
         addressDetail: '',
         zonecode: ''
       },
-      addressError: false
+      addressError: false,
+      telError: false
     }
   },
   watch: {
@@ -168,6 +167,11 @@ export default {
     }
   },
   methods: {
+    validTel(num) {
+      const result = this.$telNumber(num)
+      this.storeForm.tel = result.numberWithHyphen
+      this.telError = result.isValid
+    },
     handleAddress(e) {
       const _this = this;
       new daum.Postcode({
