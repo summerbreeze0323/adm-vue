@@ -41,6 +41,9 @@
     </div>
 
     <div class="card">
+      <div class="btn_wrap">
+        <router-link :to="{name: 'ProductCreate'}" class="btn">상품 등록</router-link>
+      </div>
       <div class="table_wrap">
         <b-table
           hover
@@ -121,7 +124,10 @@ export default {
   .table_wrap .table {
     min-width: 330px;
 
-    .thumbnail_product { width: 50px; }
+    .thumbnail_product {
+      width: 50px;
+      border-radius: 0.25rem;
+    }
   }
 }
 </style>

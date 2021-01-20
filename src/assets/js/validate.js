@@ -3,13 +3,32 @@ import { required, email } from 'vee-validate/dist/rules.esm';
 
 Validator.extend('required', {
   ...required,
-  getMessage() { return '필수 입력항목입니다.'} 
+  getMessage() { return ' '} 
 });
 
 Validator.extend('email', {
   ...email,
   getMessage() { return '이메일 형식이 잘못되었습니다.'} 
 });
+
+let integerMsg = ''
+Validator.extend('integer', {
+	getMessage (field, args) {
+		return integerMsg
+	},
+	validate(value) {
+		if (value) {
+			let rule = /^([0-9]+)$/
+
+			if (!rule.test(value)) {
+				integerMsg = '숫자만 입력가능합니다.'
+				return false
+			}
+
+			return true
+		}
+	}
+})
 
 Validator.extend('validMyInfoPassword', {
   getMessage (field, args) {
