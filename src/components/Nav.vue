@@ -34,17 +34,17 @@
           <span class="icon_txt">회원 관리</span>
         </router-link>
       </li>
-      <li>
-        <b-nav-item href="#">
+      <li @click="toggleNav">
+        <b-nav-item href="/stores">
           <coffee-icon size="20"></coffee-icon>
           <span class="icon_txt">상품 관리</span>
         </b-nav-item>
       </li>
-      <li>
-        <b-nav-item href="#">
+      <li @click="toggleNav">
+        <router-link to="/stores">
           <layout-icon size="20"></layout-icon>
           <span class="icon_txt">매장 관리</span>
-        </b-nav-item>
+        </router-link>
       </li>
     </b-navbar-nav>
   </div>
@@ -156,7 +156,7 @@ export default {
         &:hover { padding-left: 20px; }
         &:focus { padding-left: 15px; }
         
-        &.router-link-exact-active {
+        &.active {
           color: #fff;
           background: linear-gradient(118deg,$primary-purple,rgba(115,103,240,.7));
           box-shadow: 0 0 10px 1px rgba(115,103,240,.7);

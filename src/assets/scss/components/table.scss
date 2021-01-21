@@ -15,9 +15,13 @@
       background-color: #343d55;
     }
     
-    tbody tr td {
-      padding: 1rem .72rem;
-      color: $text-color;
+    tbody tr {
+      outline: none;
+
+       td {
+        padding: 1rem .72rem;
+        color: $text-color;
+      }
     }
 
     th, td {
