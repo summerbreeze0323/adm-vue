@@ -14,7 +14,7 @@
                 class="form-control"
                 v-model="searchForm.sido"
               >
-                <b-form-select-option value="">시/도 선택</b-form-select-option>
+                <b-form-select-option value="">전체</b-form-select-option>
                 <template v-for="(item, index) in sidoOptions">
                   <b-form-select-option :key="index" :value="item">{{ item.sido }}</b-form-select-option>
                 </template>

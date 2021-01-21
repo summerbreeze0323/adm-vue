@@ -8,12 +8,26 @@
   border-radius: .428rem;
   box-shadow: 0 4px 24px 0 rgba(34,41,47,.24);
   overflow: hidden;
+
+  .card_header {
+    padding: .8rem 0 2rem;
+
+    .card_title {
+      font-size: 1.285rem;
+      font-weight: 500;
+    }
+  }
 }
 .text_purple { color: $primary-purple; }
 
 .icon_txt { padding-left: 1rem; }
 
 .ml_5 { margin-left: 5px; }
+
+hr {
+  margin: 1.5rem 0;
+  border-color: transparent;
+}
 
 /* Auth styles */
 .auth {

@@ -8,6 +8,7 @@ import AuthRoutes from "@/pages/auth";
 import MainRoutes from '@/pages/main'
 import UserRoutes from '@/pages/user'
 import StoreRoutes from '@/pages/store'
+import ProductRoutes from '@/pages/product'
 
 Vue.use(VueRouter);
 
@@ -18,7 +19,8 @@ const routes = [
     children: [
       ...MainRoutes,
       ...UserRoutes,
-      ...StoreRoutes
+      ...StoreRoutes,
+      ...ProductRoutes
     ]
   },
   ...AuthRoutes,

@@ -35,10 +35,10 @@
         </router-link>
       </li>
       <li @click="toggleNav">
-        <b-nav-item href="/stores">
+        <router-link to="/products">
           <coffee-icon size="20"></coffee-icon>
           <span class="icon_txt">상품 관리</span>
-        </b-nav-item>
+        </router-link>
       </li>
       <li @click="toggleNav">
         <router-link to="/stores">
