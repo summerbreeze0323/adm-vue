@@ -11,7 +11,8 @@ export default {
 </script>
 
 <style lang="scss">
-.product_create {
+.product_create,
+.product_update {
   .thumbnail_wrap {
     margin-bottom: 1.5rem;
     

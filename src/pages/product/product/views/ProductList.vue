@@ -114,7 +114,9 @@ export default {
     }
   },
   methods: {
-    goDetail() {}
+    goDetail() {
+      this.$router.push({ name: 'ProductUpdate', params: { id: 123 } })
+    }
   }
 }
 </script>

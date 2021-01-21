@@ -1,5 +1,5 @@
 <template>
-  <div class="product_create card">
+  <div class="product_update card">
     <ValidationObserver ref="product">
       <b-form>
         <div class="">
@@ -252,7 +252,7 @@
           </b-row>
         </div>
         <div class="btn_wrap">
-          <b-button type="button" @click="validAll">상품 등록</b-button>
+          <b-button type="button" @click="validAll">상품 수정</b-button>
         </div>
       </b-form>
     </ValidationObserver>
@@ -263,14 +263,14 @@
 import { commonScript } from '../_mixins/commonScript'
 
 export default {
-  name: 'ProductCreate',
+  name: 'ProductUpdate',
   mixins: [ commonScript ],
   created() {
-    this.$eventBus.$emit('pageTitle', '상품 등록')
+    this.$eventBus.$emit('pageTitle', '상품 상세')
   },
   methods: {
-    postProduct() {
-      console.log('상품 등록!')
+    putProduct() {
+      console.log('상품 수정!')
     }
   }
 }

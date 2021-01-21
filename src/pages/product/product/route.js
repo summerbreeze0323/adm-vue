@@ -2,6 +2,7 @@ import ProductLayout from './views/ProductLayout'
 
 import ProductList from './views/ProductList'
 import ProductCreate from './views/ProductCreate'
+import ProductUpdate from './views/ProductUpdate'
 
 const ProductRoute = {
   path: 'products',
@@ -17,6 +18,11 @@ const ProductRoute = {
       path: 'new',
       name: 'ProductCreate',
       component: ProductCreate
+    },
+    {
+      path: ':id',
+      name: 'ProductUpdate',
+      component: ProductUpdate
     }
   ]
 }
