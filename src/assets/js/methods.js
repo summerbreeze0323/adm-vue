@@ -1,3 +1,7 @@
+/**
+ * Global methods
+*/
+
 export const GlobalMethod = {
   install(Vue) {
     /**

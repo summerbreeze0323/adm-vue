@@ -6,6 +6,8 @@ import { checkAuth } from '@/router/middleware/checkAuth'
 import GlobalComponents from './components'
 // Vue Global Methods
 import { GlobalMethod } from './assets/js/methods'
+// Vue Global Filters
+import GlobalFilters from './assets/js/filters'
 
 import './assets/js/validate' // custom validate
 
@@ -15,6 +17,7 @@ import VueCookies from 'vue-cookies'
 
 Vue.use(GlobalComponents)
 Vue.use(GlobalMethod)
+Vue.use(GlobalFilters)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VeeValidate, { fieldsBagName: 'veeFields' }, { mode: 'eager' })
