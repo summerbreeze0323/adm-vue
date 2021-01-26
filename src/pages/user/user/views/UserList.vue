@@ -48,8 +48,14 @@
           <template #cell(name)="data">
             <strong>{{ data.item.name }}</strong>
           </template>
+          <template #cell(birth)="data">
+            {{ data.item.birth | dateFormat() }}
+          </template>
           <template #cell(gender)="data">
             {{ data.item.gender }}
+          </template>
+          <template #cell(join_date)="data">
+            {{ data.item.join_date | dateFormat() }}
           </template>
 
           <template #cell(empty)="data" v-if="!lists.lists || !lists.lists.length">데이터가 없습니다.</template>
