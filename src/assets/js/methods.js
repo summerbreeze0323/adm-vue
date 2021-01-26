@@ -50,6 +50,55 @@ export const GlobalMethod = {
       }
 
       return resultObj
-     }  
+    },
+
+    /**
+		 * pagination
+		 *
+		 * @param { options } Object
+		 */
+    Vue.prototype.$searchPagination = (options) => {
+			let option = Object.assign({
+        type: 'search',
+        page: 1,
+        route: null,
+        router: null,
+				searchForm: null,
+				callback: null
+      }, options)
+
+      // 1. init
+      if (option.type === 'init') {
+        // 검색조건이 없다면 url setting
+        if (!location.search) {
+          option.route.query.page = options.searchForm.page
+          option.router.replace({ query: option.searchForm }).catch(() => {})
+        } else {
+          // 검색조건이 있다면 searchForm 값 setting
+          let query = option.route.query
+          for (let i in query) {
+						if (i === 'page' || i === 'perPage') {
+							option.searchForm[i] = parseInt(query[i])
+						} else {
+							option.searchForm[i] = query[i]
+						}
+          }
+        }
+      }
+
+      // 2. search
+      if (option.type === 'search') {
+        option.searchForm.page = 1
+        option.router.replace({ query: option.searchForm }).catch(() => { })
+      }
+
+      // 3. paging
+      if (option.type === 'pagination') {
+        option.searchForm.page = option.page
+				option.router.push({ query: option.searchForm }).catch(() => {})
+      }
+
+      option.callback()
+    }
   }
 } 
