@@ -16,7 +16,7 @@
                   v-model="productForm.img"
                   v-validate="'required'">
                 <div class="img_dropzone_wrap" :class="{'error': errors[0]}">
-                  <image-dropzone></image-dropzone>
+                  <image-dropzone @setImageUrl="setImageUrl"></image-dropzone>
                 </div>  
                 <span class="error_txt">{{ errors[0] }}</span>
               </ValidationProvider>
@@ -269,6 +269,9 @@ export default {
     this.$eventBus.$emit('pageTitle', '상품 등록')
   },
   methods: {
+    setImageUrl(url) {
+      this.productForm.img = url
+    },
     postProduct() {
       console.log('상품 등록!')
     }

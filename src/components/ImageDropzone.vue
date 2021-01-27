@@ -1,9 +1,10 @@
 <template>
   <vue-dropzone ref="myVueDropzone" id="dropzone"
+    name="file"
     :options="dropzoneOptions"
+    :useCustomSlot="true"
     @vdropzone-success="success"
     @vdropzone-removed-file="removed"
-    :useCustomSlot="true"
   >
     <div class="dropzone-custom-content">
       <plus-icon size="15" class="ico_plus"></plus-icon>
@@ -26,20 +27,19 @@ export default {
   data() {
     return {
       dropzoneOptions: {
-        url: 'https://httpbin.org/post',
+        url: 'http://localhost:5000/api/products/image',
         maxFiles: 1,
         acceptedFiles: 'image/*',
-        // headers: { "My-Awesome-Header": "header value" }
         addRemoveLinks: true
       }
     }
   },
   methods: {
-    success(file, response) {
-      // console.log("File uploaded successfully");
-      // console.log("Response is ->", response);
+    success(file, res) {
+      console.log("Response is ->", res);
 
-      if (response.files.file) {
+      if(res.success) {
+        this.$emit('setImageUrl', res.url)
         this.$refs.myVueDropzone.disable()
       }
     },
