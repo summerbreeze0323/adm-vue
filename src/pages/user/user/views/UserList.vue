@@ -1,7 +1,7 @@
 <template>
   <div class="user_list">
     <div class="card search_wrap">
-      <b-form>
+      <b-form @submit.prevent>
         <div class="row">
           <div class="col-12 col-md-4">
             <b-form-group
@@ -58,7 +58,7 @@
             {{ data.item.join_date | dateFormat() }}
           </template>
 
-          <template #cell(empty)="data" v-if="!lists.lists || !lists.lists.length">데이터가 없습니다.</template>
+          <template #empty="scope">데이터가 없습니다.</template>
         </b-table>
       </div>
 
