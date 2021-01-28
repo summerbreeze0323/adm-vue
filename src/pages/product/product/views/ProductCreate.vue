@@ -260,6 +260,7 @@
 </template>
 
 <script>
+import productAPI from '@/api/product'
 import { commonScript } from '../_mixins/commonScript'
 
 export default {
@@ -269,11 +270,31 @@ export default {
     this.$eventBus.$emit('pageTitle', '상품 등록')
   },
   methods: {
+    // ImageDropzone Component에서 보낸 url settting
     setImageUrl(url) {
       this.productForm.img = url
     },
-    postProduct() {
-      console.log('상품 등록!')
+    async postProduct() {
+      this.$store.commit('showLoader')  
+      try {
+        const res = await productAPI.postProduct(this.productForm)
+
+        this.$store.commit('hideLoader')
+        
+        if (res.data.success) {
+          this.$router.push('/products')
+          this.$nextTick(() => {
+            this.$bvToast.toast('등록되었습니다.', {
+              title: 'success',
+              variant: 'success'
+            })
+          })
+        } else {
+          this.$checkError(res.data)
+        }
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
 }

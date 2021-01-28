@@ -33,8 +33,6 @@ export const commonScript = {
         return false
       }
 
-      console.log('모두 입력')
-
       if (this.$route.name === 'ProductCreate') {
         // 상품 등록
         this.postProduct()
