@@ -16,7 +16,7 @@
                   v-model="productForm.img"
                   v-validate="'required'">
                 <div class="img_dropzone_wrap" :class="{'error': errors[0]}">
-                  <image-dropzone></image-dropzone>
+                  <image-dropzone @setImageUrl="setImageUrl"></image-dropzone>
                 </div>  
                 <span class="error_txt">{{ errors[0] }}</span>
               </ValidationProvider>
@@ -253,13 +253,23 @@
         </div>
         <div class="btn_wrap">
           <b-button type="button" @click="validAll">상품 수정</b-button>
+          <b-button type="button" v-b-modal.modalDeleteProduct>상품 삭제</b-button>
         </div>
       </b-form>
     </ValidationObserver>
+
+    <!-- Modal -->
+		<modal-confirm :id="'modalConfirmUpdateProduct'" @answer="updateConfirm">
+			<div slot="content">상품 정보를 정말로 수정하시겠습니까?</div>
+		</modal-confirm>
+    <modal-delete :id="'modalDeleteProduct'" @answer="deleteConfirm">
+			<div slot="content">해당 상품을 정말로 삭제하시겠습니까?</div>
+		</modal-delete>
   </div>
 </template>
 
 <script>
+import productAPI from '@/api/product'
 import { commonScript } from '../_mixins/commonScript'
 
 export default {
@@ -267,10 +277,100 @@ export default {
   mixins: [ commonScript ],
   created() {
     this.$eventBus.$emit('pageTitle', '상품 상세')
+    this.productId = this.$route.params.id
+    this.getProduct()
+  },
+  data() {
+    return {
+      productId: ''
+    }
   },
   methods: {
-    putProduct() {
-      console.log('상품 수정!')
+    // 상품 상세
+    async getProduct() {
+      this.$store.commit('showLoader')  
+      try {
+        const result = await productAPI.getProduct(this.productId)
+        const data = result.data.item
+
+        this.productForm.category = data.category
+        this.productForm.product_name = data.product_name
+        this.productForm.product_name_en = data.product_name_en
+        this.productForm.content = data.content
+        this.productForm.recommend = data.recommend
+        this.productForm.standard = data.standard
+        this.productForm.kcal = data.kcal
+        this.productForm.sat_FAT = data.sat_FAT
+        this.productForm.protein = data.protein
+        this.productForm.sodium = data.sodium
+        this.productForm.sugars = data.sugars
+        this.productForm.caffeine = data.caffeine
+        this.productForm.img = data.img
+        this.$store.commit('hideLoader')
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    // 수정 확인
+		updateConfirm (value) {
+			this.$bvModal.hide('modalConfirmUpdateProduct')
+
+			if (value) {
+				this.putProduct()
+			}
+    },
+    // 상품 수정
+    async putProduct() {
+      this.$store.commit('showLoader')  
+      try {
+        const res = await productAPI.putProduct(this.productId, this.productForm)
+
+        this.$store.commit('hideLoader')
+        
+        if (res.data.success) {
+          this.$bvToast.toast('수정되었습니다.', {
+            title: 'success',
+            variant: 'success'
+          })
+        } else {
+          this.$checkError(res.data)
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    // 상품 삭제 확인
+		deleteConfirm (value) {
+			this.$bvModal.hide('modalDeleteProduct')
+
+			if (value) {
+				this.deleteProduct()
+			}
+    },
+    // 상품 삭제
+    async deleteProduct() {
+      this.$store.commit('showLoader')  
+      try {
+        const res = await productAPI.deleteProduct(this.productId)
+
+        this.$store.commit('hideLoader')
+        
+        if (res.data.success) {
+          // 목록 이동
+          this.$router.replace('/products')
+
+          this.$nextTick(() => {
+            this.$bvToast.toast('삭제되었습니다.', {
+              title: 'success',
+              variant: 'success'
+            })
+          })
+        } else {
+          this.$checkError(res.data)
+        }
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
 }
