@@ -253,6 +253,7 @@
         </div>
         <div class="btn_wrap">
           <b-button type="button" @click="validAll">상품 수정</b-button>
+          <b-button type="button" v-b-modal.modalDeleteProduct>상품 삭제</b-button>
         </div>
       </b-form>
     </ValidationObserver>
@@ -261,6 +262,9 @@
 		<modal-confirm :id="'modalConfirmUpdateProduct'" @answer="updateConfirm">
 			<div slot="content">상품 정보를 정말로 수정하시겠습니까?</div>
 		</modal-confirm>
+    <modal-delete :id="'modalDeleteProduct'" @answer="deleteConfirm">
+			<div slot="content">해당 상품을 정말로 삭제하시겠습니까?</div>
+		</modal-delete>
   </div>
 </template>
 
@@ -327,6 +331,39 @@ export default {
           this.$bvToast.toast('수정되었습니다.', {
             title: 'success',
             variant: 'success'
+          })
+        } else {
+          this.$checkError(res.data)
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    // 상품 삭제 확인
+		deleteConfirm (value) {
+			this.$bvModal.hide('modalDeleteProduct')
+
+			if (value) {
+				this.deleteProduct()
+			}
+    },
+    // 상품 삭제
+    async deleteProduct() {
+      this.$store.commit('showLoader')  
+      try {
+        const res = await productAPI.deleteProduct(this.productId)
+
+        this.$store.commit('hideLoader')
+        
+        if (res.data.success) {
+          // 목록 이동
+          this.$router.replace('/products')
+
+          this.$nextTick(() => {
+            this.$bvToast.toast('삭제되었습니다.', {
+              title: 'success',
+              variant: 'success'
+            })
           })
         } else {
           this.$checkError(res.data)

@@ -24,9 +24,15 @@ function putProduct(id, data) {
 	return axios.put(`/api/products/${id}`, data)
 }
 
+// 상품 삭제
+function deleteProduct(id) {
+	return axios.delete(`/api/products/${id}`)
+}
+
 export default {
   getProductList,
   postProduct,
   getProduct,
-  putProduct
+  putProduct,
+  deleteProduct
 }
