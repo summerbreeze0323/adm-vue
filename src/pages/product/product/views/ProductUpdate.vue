@@ -251,9 +251,9 @@
             </div>
           </b-row>
         </div>
-        <div class="btn_wrap">
+        <div class="btn_wrap has_btns">
           <b-button type="button" @click="validAll">상품 수정</b-button>
-          <b-button type="button" v-b-modal.modalDeleteProduct>상품 삭제</b-button>
+          <b-button type="button" class="btn_red" v-b-modal.modalDeleteProduct>상품 삭제</b-button>
         </div>
       </b-form>
     </ValidationObserver>

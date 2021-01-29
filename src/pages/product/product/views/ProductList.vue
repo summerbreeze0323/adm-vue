@@ -92,7 +92,7 @@ export default {
       searchForm: {
         category: '',
         product_name: '',
-        perPage: 4,
+        perPage: 10,
         page: 1,
       },
       fields: [
@@ -102,6 +102,12 @@ export default {
       ],
       lists: {}
     }
+  },
+  watch: {
+		'$route.query' (value) {
+      this.searchForm.page = parseInt(value.page)
+      this.searchList({type: 'init'})
+		}
   },
   methods: {
     goDetail(item) {
@@ -118,11 +124,9 @@ export default {
       this.$searchPagination(option)
     },
     async getProductList() {
-      this.$store.commit('showLoader')  
       try {
         const result = await productAPI.getProductList(this.searchForm)
         this.lists = result.data
-        this.$store.commit('hideLoader')
       } catch (err) {
         console.log(err)
       }

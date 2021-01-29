@@ -2,8 +2,10 @@
 @import '@/assets/scss/_import/variables.scss';
 
 .btn_wrap {
-	padding-bottom: .6rem;
+	padding: 2rem 0 .6rem;
 	text-align: right;
+
+	&.has_btns .btn:first-child { margin-right: 5px; }
 }
 
 .btn--full { width: 100% !important; }

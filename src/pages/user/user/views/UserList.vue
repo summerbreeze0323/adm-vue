@@ -52,7 +52,7 @@
             {{ data.item.gender }}
           </template>
 
-          <template #cell(empty)="data" v-if="!lists.lists || !lists.lists.length">데이터가 없습니다.</template>
+          <template #empty="scope">데이터가 없습니다.</template>
         </b-table>
       </div>
 
@@ -94,6 +94,12 @@ export default {
       lists: {}
     }
   },
+  watch: {
+		'$route.query' (value) {
+      this.searchForm.page = parseInt(value.page)
+      this.searchList({type: 'init'})
+		}
+  },
   methods: {
     searchList(options) {
       let option = Object.assign({
@@ -106,11 +112,9 @@ export default {
       this.$searchPagination(option)
     },
     async getUserList() {
-      this.$store.commit('showLoader')  
       try {
         const result = await userAPI.getUserList(this.searchForm)
         this.lists = result.data
-        this.$store.commit('hideLoader')
       } catch (err) {
         console.log(err)
       }

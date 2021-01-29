@@ -56,9 +56,7 @@ export default {
 		}
   },
   created () {
-		const currentPage = this.$route.query.page
-
-		if (currentPage !== 1) { this.currentPage = currentPage }
+    this.currentPage = this.$route.query.page
 	},
   data () {
 		return {
