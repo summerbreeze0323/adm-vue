@@ -1,7 +1,7 @@
 <template>
   <div class="product_list">
     <div class="card search_wrap">
-      <b-form>
+      <b-form @submit.prevent>
         <div class="row">
           <div class="col-12 col-md-3">
             <b-form-group
@@ -30,11 +30,12 @@
               <b-form-input
                 id="product"
                 v-model="searchForm.product_name"
+                @keyup.enter="searchList"
               ></b-form-input>
             </b-form-group>
           </div>
           <div class="col-12 col-md-2 btn_search_wrap">
-            <b-button>검색</b-button>
+            <b-button @click="searchList">검색</b-button>
           </div>
         </div>
       </b-form>
@@ -50,10 +51,9 @@
           id="productList"
           class="table_middle"
           :fields="fields"
-          :items="lists.item"
-          :per-page="searchForm.perPage"
-          :current-page="searchForm.page"
+          :items="lists.lists"
           @row-clicked="goDetail"
+          show-empty
         >
           <template #cell(img)="data">
             <img
@@ -62,6 +62,8 @@
               class="thumbnail_product"  
             >
           </template>
+
+          <template #empty="scope">데이터가 없습니다.</template>
         </b-table>
       </div>
 
@@ -70,15 +72,19 @@
         :total="lists.total ? lists.total : 0"
 				:perPage="searchForm.perPage"
 				:page="searchForm.page"
+        :callback="searchList"
       ></pagination>
     </div>
   </div>
 </template>
 
 <script>
+import productAPI from '@/api/product'
+
 export default {
   name: 'ProductList',
   created() {
+    this.searchList({type: 'init'})
     this.$eventBus.$emit('pageTitle', '상품 관리')
   },
   data() {
@@ -86,36 +92,40 @@ export default {
       searchForm: {
         category: '',
         product_name: '',
-        perPage: 10,
+        perPage: 4,
         page: 1,
       },
       fields: [
         { key: 'category', label: '카테고리' },
-        { key: 'img', label: '이미지' },
+        { key: 'img', label:  '이미지' },
         { key: 'product_name', label: '상품명' }
       ],
-      lists: {
-        total: 10,
-        item: [
-          {
-            img: 'https://image.istarbucks.co.kr/upload/store/skuimg/2015/08/[94]_20150813222021880.jpg',
-            product_name: '카페 아메리카노',
-            product_name_en: 'Caffe Americano',
-            category: 'coffee'
-          },
-          {
-            img: 'https://image.istarbucks.co.kr/upload/store/skuimg/2015/08/[94]_20150813222021880.jpg',
-            product_name: '아이스 얼 그레이 티',
-            product_name_en: 'Iced Earl Grey Brewed Tea',
-            category: 'tea'
-          }
-        ]
-      }
+      lists: {}
     }
   },
   methods: {
-    goDetail() {
-      this.$router.push({ name: 'ProductUpdate', params: { id: 123 } })
+    goDetail(item) {
+      this.$router.push({ name: 'ProductUpdate', params: { id: item._id } })
+    },
+    searchList(options) {
+      let option = Object.assign({
+        route: this.$route,
+        router: this.$router,
+				searchForm: this.searchForm,
+				callback: this.getProductList
+      }, options)
+
+      this.$searchPagination(option)
+    },
+    async getProductList() {
+      this.$store.commit('showLoader')  
+      try {
+        const result = await productAPI.getProductList(this.searchForm)
+        this.lists = result.data
+        this.$store.commit('hideLoader')
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
 }

@@ -17,7 +17,8 @@ Validator.extend('integer', {
 		return integerMsg
 	},
 	validate(value) {
-		if (value) {
+		const val = String(value)
+		if (val) {
 			let rule = /^([0-9]+)$/
 
 			if (!rule.test(value)) {

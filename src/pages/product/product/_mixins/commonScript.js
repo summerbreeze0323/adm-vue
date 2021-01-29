@@ -22,6 +22,10 @@ export const commonScript = {
     }
   },
   methods: {
+    // ImageDropzone Component에서 보낸 url settting
+    setImageUrl(url) {
+      this.productForm.img = url
+    },
     async validAll() {
       const isValid = await this.$refs.product.validate();
 
@@ -33,14 +37,12 @@ export const commonScript = {
         return false
       }
 
-      console.log('모두 입력')
-
       if (this.$route.name === 'ProductCreate') {
         // 상품 등록
         this.postProduct()
       } else {
         // 상품 수정
-        this.putProduct()
+        this.$bvModal.show('modalConfirmUpdateProduct')
       }
     }
   }
