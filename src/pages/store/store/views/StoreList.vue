@@ -68,11 +68,13 @@
           hover
           id="storeList"
           :fields="fields"
-          :items="lists.item"
-          :per-page="searchForm.perPage"
-          :current-page="searchForm.page"
+          :items="lists.lists"
           @row-clicked="goDetail"
-        ></b-table>
+          show-empty
+        >
+          <template #cell(region)="data">{{ data.item.sido }}/{{ data.item.gugun }}</template>
+          <template #empty="scope">데이터가 없습니다.</template>
+        </b-table>
       </div>
 
       <pagination
@@ -80,12 +82,14 @@
         :total="lists.total ? lists.total : 0"
 				:perPage="searchForm.perPage"
 				:page="searchForm.page"
+        :callback="searchList"
       ></pagination>
     </div>
   </div>
 </template>
 
 <script>
+import storeAPI from '@/api/store'
 import { sidoList } from '../js/sidoList'
 
 export default {
@@ -93,6 +97,7 @@ export default {
   created() {
     this.sidoOptions = sidoList
     this.$eventBus.$emit('pageTitle', '매장 관리')
+    this.searchList({type: 'init'})
   },
   data() {
     return {
@@ -106,16 +111,11 @@ export default {
       },
       fields: [
         { key: 'store', label: '지점명' },
+        { key: 'region', label: '지역' },
         { key: 'address', label: '주소' },
         { key: 'tel', label: '전화번호' }
       ],
-      lists: {
-        total: 10,
-        item: [
-          { store: '가나다지점', sido: '서울', gugun: '관악구', address: '서울시 일산동구 정발산로 24 (장항동)', tel: '1234-1234'},
-          { store: '흐흐흐지점', sido: '경기', gugun: '고양시 일산덕구', address: '경기도 고양시 일산동구 정발산로 38', tel: '1234-1234'},
-        ]
-      }
+      lists: {}
     }
   },
   watch: {
@@ -125,11 +125,32 @@ export default {
   },
   methods: {
     goDetail (item) {
-			this.$router.push({ name: 'StoreUpdate', params: { id: 123 } })
-		}
+			this.$router.push({ name: 'StoreUpdate', params: { id: item._id } })
+    },
+    searchList(options) {
+      let option = Object.assign({
+        route: this.$route,
+        router: this.$router,
+				searchForm: this.searchForm,
+				callback: this.getStoreList
+      }, options)
+
+      this.$searchPagination(option)
+    },
+    async getStoreList() {
+      this.$store.commit('showLoader')  
+      try {
+        const result = await storeAPI.getStoreList(this.searchForm)
+        this.lists = result.data
+        this.$store.commit('hideLoader')
+      } catch (err) {
+        console.log(err)
+      }
+    }
   }
 }
 </script>
 
 <style>
+.store_list .table_wrap .table { min-width: 700px; }
 </style>
