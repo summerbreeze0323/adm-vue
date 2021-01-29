@@ -270,10 +270,6 @@ export default {
     this.$eventBus.$emit('pageTitle', '상품 등록')
   },
   methods: {
-    // ImageDropzone Component에서 보낸 url settting
-    setImageUrl(url) {
-      this.productForm.img = url
-    },
     async postProduct() {
       this.$store.commit('showLoader')  
       try {

@@ -97,15 +97,15 @@ export default {
       },
       fields: [
         { key: 'category', label: '카테고리' },
-        { key: 'img', label: '이미지' },
+        { key: 'img', label:  '이미지' },
         { key: 'product_name', label: '상품명' }
       ],
       lists: {}
     }
   },
   methods: {
-    goDetail() {
-      this.$router.push({ name: 'ProductUpdate', params: { id: 123 } })
+    goDetail(item) {
+      this.$router.push({ name: 'ProductUpdate', params: { id: item._id } })
     },
     searchList(options) {
       let option = Object.assign({

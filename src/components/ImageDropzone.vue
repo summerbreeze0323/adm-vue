@@ -30,14 +30,13 @@ export default {
         url: 'http://localhost:5000/api/products/image',
         maxFiles: 1,
         acceptedFiles: 'image/*',
-        addRemoveLinks: true
+        addRemoveLinks: true,
+        thumbnail: ''
       }
     }
   },
   methods: {
     success(file, res) {
-      console.log("Response is ->", res);
-
       if(res.success) {
         this.$emit('setImageUrl', res.url)
         this.$refs.myVueDropzone.disable()
