@@ -31,11 +31,11 @@
                 <b-form-input
                   name="tel"
                   id="tel"
-                  :class="{'error': storeForm.tel.length && !telError}"
+                  :class="{'error': storeForm.tel.length && !isValidTel}"
                   :value="storeForm.tel"
                   @input="validTel($event)"
                 ></b-form-input>
-                <span class="error_txt" v-show="storeForm.tel.length && !telError">전화번호 형식이 아닙니다.</span>
+                <span class="error_txt" v-show="storeForm.tel.length && !isValidTel">전화번호 형식이 아닙니다.</span>
               </b-form-group>
             </div>
             <div class="col-6 col-md-6 col-xl-3">
@@ -50,8 +50,9 @@
                     id="sido"
                     class="form-control"
                     :class="{'error': errors[0]}"
-                    v-model="storeForm.sido"
+                    v-model="selectedSido"
                     v-validate="'required'"
+                    @change="changeSido"
                   >
                     <b-form-select-option value="">시/도 선택</b-form-select-option>
                     <template v-for="(item, index) in sidoOptions">
@@ -74,13 +75,13 @@
                     id="gugun"
                     class="form-control"
                     :class="{'error': errors[0]}"
-                    v-model="storeForm.gugun"
-                    :disabled="!storeForm.sido"
+                    v-model="selectedGugun"
+                    :disabled="!selectedSido"
                     v-validate="'required'"
                   >
                     <b-form-select-option value="">구/군 선택</b-form-select-option>
-                    <template v-for="(item, index) in storeForm.sido.gugun">
-                      <b-form-select-option :key="index" :value="item.value">{{ item.text }}</b-form-select-option>
+                    <template v-for="(item, index) in selectedSido.gugun">
+                      <b-form-select-option :key="index" :value="item">{{ item.text }}</b-form-select-option>
                     </template>
                   </b-form-select>
                   <span class="error_txt">{{ errors[0] }}</span>
@@ -96,7 +97,7 @@
               <b-form-group
                 id="zonecode"
                 class="form-group_address"
-                :class="{'error': addressError}"
+                :class="{'error': !isValidAddress}"
                 label="우편번호"
                 label-for="zonecode"
               >
@@ -109,7 +110,6 @@
                 ></b-form-input>
                 <b-button class="no_shadow" @click="handleAddress">우편번호 찾기</b-button>
                 <p class="address" :class="{'no_data': !storeForm.address}">{{ storeForm.address ? storeForm.address : '주소' }}</p>
-                <span v-show="addressError" class="error_txt">필수 입력항목입니다.</span>
                 <b-form-input
                   id="addressDetail"
                   class="address_detail"
@@ -126,10 +126,17 @@
         </b-form>
       </ValidationObserver>  
     </div>
+
+    <!-- Modal -->
+		<modal-confirm :id="'modalConfirmUpdateStore'" @answer="updateConfirm">
+			<div slot="content">매장 정보를 정말로 수정하시겠습니까?</div>
+		</modal-confirm>
   </div>
 </template>
 
 <script>
+import { sidoList } from '../js/sidoList'
+import storeAPI from '@/api/store'
 import { commonScript } from '../_mixins/commonScript'
 
 export default {
@@ -137,10 +144,69 @@ export default {
   mixins: [ commonScript ],
   created() {
     this.$eventBus.$emit('pageTitle', '매장 상세')
+    this.updateId = this.$route.params.id
+    this.getStore()
   },
   methods: {
-    putStore() {
-      console.log('매장 등록!')
+    // 매장 상세
+    async getStore() {
+      this.$store.commit('showLoader')  
+      try {
+        const result = await storeAPI.getStore(this.updateId)
+        const data = result.data.item
+
+        this.storeForm.store = data.store
+        this.storeForm.tel = data.tel
+
+        sidoList.forEach(item => {
+          if (item.sido === data.sido) {
+            this.selectedSido = item
+            this.gugunOptions = item.gugun
+          }
+        })
+
+        this.selectedGugun = this.selectedSido.gugun.filter(item => {
+          return item.value === data.gugun
+        })[0]
+
+        this.storeForm.address = data.address
+        this.storeForm.jibunAddress = data.jibunAddress
+        this.storeForm.addressDetail = data.addressDetail
+        this.storeForm.zonecode = data.zonecode
+
+        this.$store.commit('hideLoader')
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    // 수정 확인
+		updateConfirm (value) {
+			this.$bvModal.hide('modalConfirmUpdateStore')
+
+			if (value) {
+				this.makeData()
+			}
+    },
+    // 매장 수정
+    async putStore(data) {
+      this.$store.commit('showLoader')  
+
+      try {
+        const res = await storeAPI.putStore(this.updateId, data)
+
+        this.$store.commit('hideLoader')
+        
+        if (res.data.success) {
+          this.$bvToast.toast('수정되었습니다.', {
+            title: 'success',
+            variant: 'success'
+          })
+        } else {
+          this.$checkError(res.data)
+        }
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
 }
