@@ -3,7 +3,10 @@ import { sidoList } from '../js/sidoList'
 export const commonScript = {
   data() {
     return {
+      updateId: '',
       sidoOptions: [],
+      selectedSido: '',
+      selectedGugun: '',
       storeForm: {
         store: '',
         tel: '',
@@ -12,32 +15,34 @@ export const commonScript = {
         address: '',
         jibunAddress: '',
         addressDetail: '',
-        zonecode: ''
+        zonecode: '',
+        lat: '', // 위도
+        lot: '' // 경도
       },
-      addressError: false,
-      telError: false
+      isValidAddress: true,
+      isValidTel: true
     }
   },
   created() {
     this.sidoOptions = sidoList
   },
   watch: {
-    'storeForm.sido'() {
-      if (this.storeForm.gugun) { this.storeForm.gugun = ''}
-    },
     'storeForm.zonecode'(value) {
       if(!value) {
-        this.addressError = true
+        this.isValidAddress = false
       } else {
-        this.addressError = false
+        this.isValidAddress = true
       }
     }
   },
   methods: {
+    changeSido() {
+      if (this.selectedGugun) { this.selectedGugun = ''}
+    },
     validTel(num) {
       const result = this.$telNumber(num)
       this.storeForm.tel = result.numberWithHyphen
-      this.telError = result.isValid
+      this.isValidTel = result.isValid
     },
     handleAddress(e) {
       const _this = this;
@@ -66,17 +71,39 @@ export const commonScript = {
           // 우편번호와 주소 정보를 해당 필드에 넣는다.
           _this.storeForm.address = roadAddr
           _this.storeForm.jibunAddress = data.jibunAddress
-          _this.storeForm.addressDetail = extraRoadAddr
+          _this.storeForm.addressDetail = extraRoadAddr.replace(/^\s*/, '')
           _this.storeForm.zonecode = data.zonecode
 
           // '선택 안함' 클릭시 주소관련 데이터 초기화
           if (data.noSelected === 'Y') {
             _this.storeForm.address = ''
             _this.storeForm.jibunAddress = ''
+            _this.storeForm.addressDetail = ''
             _this.storeForm.zonecode = ''
+            _this.storeForm.lat = ''
+            _this.storeForm.lot = ''
+          } else {
+            // 좌표 검색
+            _this.searchLocation(_this.storeForm.address)
           }
         }
       }).open();
+    },
+    // 좌표 검색
+    searchLocation(address) {
+      const _this = this;
+      // 주소-좌표 변환 객체를 생성합니다
+      var geocoder = new kakao.maps.services.Geocoder();
+      
+      // 주소로 좌표를 검색합니다
+      geocoder.addressSearch(address, function(result, status) {
+        // 정상적으로 검색이 완료됐으면 
+        if (status === kakao.maps.services.Status.OK) {
+          // 위도, 경도 저장
+          _this.storeForm.lat = result[0].y
+          _this.storeForm.lot = result[0].x
+        } 
+      }); 
     },
     async validAll() {
       const isValid = await this.$refs.store.validate();
@@ -84,7 +111,7 @@ export const commonScript = {
       if (!isValid) {
         // 우편번호가 입력되어 있지 않다면 주소 error
         if(!this.storeForm.zonecode) {
-          this.addressError = true
+          this.isValidAddress = false
         }
 
       	this.$bvToast.toast('입력값을 확인해주세요.', {
@@ -94,14 +121,24 @@ export const commonScript = {
         return false
       }
 
-      console.log('모두 입력')
+      if (!this.updateId) {
+        this.makeData()
+      } else {
+        // 수정 확인
+        this.$bvModal.show('modalConfirmUpdateStore')
+      }
+    },
+    makeData() {
+      let data = Object.assign({}, this.storeForm)
+      data.sido = this.selectedSido.sido
+      data.gugun = this.selectedGugun.value
 
-      if (this.$route.name === 'StoreCreate') {
+      if (!this.updateId) {
         // 매장 등록
-        this.postStore()
+        this.postStore(data)
       } else {
         // 매장 수정
-        this.putStore()
+        this.putStore(data)
       }
     }
   }
