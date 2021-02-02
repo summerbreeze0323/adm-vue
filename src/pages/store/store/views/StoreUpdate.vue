@@ -121,7 +121,7 @@
           </b-row>
           <div class="btn_wrap">
             <b-button type="button" @click="validAll">매장 수정</b-button>
-            <b-button type="button" class="btn_red ml_5">매장 삭제</b-button>
+            <b-button type="button" class="btn_red ml_5" v-b-modal.modalDeleteStore>매장 삭제</b-button>
           </div>
         </b-form>
       </ValidationObserver>  
@@ -131,6 +131,9 @@
 		<modal-confirm :id="'modalConfirmUpdateStore'" @answer="updateConfirm">
 			<div slot="content">매장 정보를 정말로 수정하시겠습니까?</div>
 		</modal-confirm>
+    <modal-delete :id="'modalDeleteStore'" @answer="deleteConfirm">
+			<div slot="content">해당 매장을 정말로 삭제하시겠습니까?</div>
+		</modal-delete>
   </div>
 </template>
 
@@ -200,6 +203,40 @@ export default {
           this.$bvToast.toast('수정되었습니다.', {
             title: 'success',
             variant: 'success'
+          })
+        } else {
+          this.$checkError(res.data)
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    // 삭제 확인
+    deleteConfirm (value) {
+      this.$bvModal.hide('modalDeleteStore')
+
+      if (value) {
+        // 매장 삭제
+        this.deleteStore()
+      }
+    },
+    // 매장 삭제
+    async deleteStore() {
+      this.$store.commit('showLoader')  
+      try {
+        const res = await storeAPI.deleteStore(this.updateId)
+
+        this.$store.commit('hideLoader')
+        
+        if (res.data.success) {
+          // 목록 이동
+          this.$router.replace('/stores')
+
+          this.$nextTick(() => {
+            this.$bvToast.toast('삭제되었습니다.', {
+              title: 'success',
+              variant: 'success'
+            })
           })
         } else {
           this.$checkError(res.data)

@@ -24,9 +24,15 @@ function putStore(id, data) {
 	return axios.put(`/api/stores/${id}`, data)
 }
 
+// 매장 삭제
+function deleteStore(id) {
+	return axios.delete(`/api/stores/${id}`)
+}
+
 export default {
   getStoreList,
   postStore,
   getStore,
-  putStore
+  putStore,
+  deleteStore
 }
