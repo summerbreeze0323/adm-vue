@@ -176,6 +176,8 @@ export default {
         this.storeForm.jibunAddress = data.jibunAddress
         this.storeForm.addressDetail = data.addressDetail
         this.storeForm.zonecode = data.zonecode
+        this.storeForm.lat = data.lat
+        this.storeForm.lot = data.lot
 
         this.$store.commit('hideLoader')
       } catch (err) {

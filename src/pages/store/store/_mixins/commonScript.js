@@ -15,7 +15,9 @@ export const commonScript = {
         address: '',
         jibunAddress: '',
         addressDetail: '',
-        zonecode: ''
+        zonecode: '',
+        lat: '', // 위도
+        lot: '' // 경도
       },
       isValidAddress: true,
       isValidTel: true
@@ -76,10 +78,32 @@ export const commonScript = {
           if (data.noSelected === 'Y') {
             _this.storeForm.address = ''
             _this.storeForm.jibunAddress = ''
+            _this.storeForm.addressDetail = ''
             _this.storeForm.zonecode = ''
+            _this.storeForm.lat = ''
+            _this.storeForm.lot = ''
+          } else {
+            // 좌표 검색
+            _this.searchLocation(_this.storeForm.address)
           }
         }
       }).open();
+    },
+    // 좌표 검색
+    searchLocation(address) {
+      const _this = this;
+      // 주소-좌표 변환 객체를 생성합니다
+      var geocoder = new kakao.maps.services.Geocoder();
+      
+      // 주소로 좌표를 검색합니다
+      geocoder.addressSearch(address, function(result, status) {
+        // 정상적으로 검색이 완료됐으면 
+        if (status === kakao.maps.services.Status.OK) {
+          // 위도, 경도 저장
+          _this.storeForm.lat = result[0].y
+          _this.storeForm.lot = result[0].x
+        } 
+      }); 
     },
     async validAll() {
       const isValid = await this.$refs.store.validate();
