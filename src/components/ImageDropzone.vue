@@ -24,14 +24,29 @@ export default {
     vueDropzone: vue2Dropzone,
     PlusIcon
   },
+  props: {
+    imgUrl: {
+      type: String
+    },
+    thumbnailName: {
+      type: String
+    }
+  },
   data() {
     return {
       dropzoneOptions: {
         url: 'http://localhost:5000/api/products/image',
         maxFiles: 1,
         acceptedFiles: 'image/*',
-        addRemoveLinks: true,
-        thumbnail: ''
+        addRemoveLinks: true
+      }
+    }
+  },
+  watch: {
+    imgUrl(value) {
+      if(value) {
+        var file = { size: 123, name: this.thumbnailName };
+        this.$refs.myVueDropzone.manuallyAddFile(file, value);
       }
     }
   },
@@ -42,7 +57,8 @@ export default {
         this.$refs.myVueDropzone.disable()
       }
     },
-    removed() {
+    removed(file, error) {
+      this.$emit('setImageUrl', '')
       this.$refs.myVueDropzone.enable()
     }
   }
@@ -67,10 +83,20 @@ export default {
   .ico_plus { margin-top: -2px; }
 
   .dz-preview {
+    margin: 0;
+    min-width: 100%;
+    min-height: 100%;
     border-radius: 0.25rem;
+    overflow: hidden;
 
     &.dz-image-preview {
       margin: 0 !important;
+
+      .dz-image { border-radius: 0; }
+    }
+    .dz-image img {
+      width: 100% !important;
+      height: 100% !important;
     }
     .dz-success-mark { top: 30%; }
     .dz-details {
